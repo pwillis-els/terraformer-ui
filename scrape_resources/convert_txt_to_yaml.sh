@@ -17,7 +17,8 @@ BN="`basename "$FILE"`"
 printf "resources:\n  $RESOURCE:\n"
 
 cat "$FILE" | \
-    sed -e 's/^    \([^ ]\+\)/  - \1:/g' | \
+    sed -e 's/^    \([^ ]\+\)/    \1:/g' | \
     sed -e 's/(/# (/g' | \
     sed -e 's/^        /      - /g'
 
+#    sed -e 's/^    \([^ ]\+\)/  - \1:/g' | \

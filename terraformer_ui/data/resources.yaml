@@ -1,17 +1,39 @@
+regions:
+  aws:
+    - af-south-1
+    - ap-east-1
+    - ap-northeast-1
+    - ap-northeast-2
+    - ap-south-1
+    - ap-southeast-1
+    - ap-southeast-2
+    - ca-central-1
+    - eu-central-1
+    - eu-north-1
+    - eu-south-1
+    - eu-west-1
+    - eu-west-2
+    - eu-west-3
+    - me-south-1
+    - sa-east-1
+    - us-east-1
+    - us-east-2
+    - us-west-1
+    - us-west-2
 resources:
   aws:
-    accessanalyzer:
+  - accessanalyzer:
       - aws_accessanalyzer_analyzer
-    acm:
+  - acm:
       - aws_acm_certificate
-    alb: # (supports ALB and NLB)
+  - alb: # (supports ALB and NLB)
       - aws_lb
       - aws_lb_listener
       - aws_lb_listener_rule
       - aws_lb_listener_certificate
       - aws_lb_target_group
       - aws_lb_target_group_attachment
-    api_gateway:
+  - api_gateway:
       - aws_api_gateway_authorizer
       - aws_api_gateway_documentation_part
       - aws_api_gateway_gateway_response
@@ -25,94 +47,94 @@ resources:
       - aws_api_gateway_stage
       - aws_api_gateway_usage_plan
       - aws_api_gateway_vpc_link
-    appsync:
+  - appsync:
       - aws_appsync_graphql_api
-    auto_scaling:
+  - auto_scaling:
       - aws_autoscaling_group
       - aws_launch_configuration
       - aws_launch_template
-    budgets:
+  - budgets:
       - aws_budgets_budget
-    cloud9:
+  - cloud9:
       - aws_cloud9_environment_ec2
-    cloudfront:
+  - cloudfront:
       - aws_cloudfront_distribution
-    cloudformation:
+  - cloudformation:
       - aws_cloudformation_stack
       - aws_cloudformation_stack_set
       - aws_cloudformation_stack_set_instance
-    cloudtrail:
+  - cloudtrail:
       - aws_cloudtrail
-    cloudwatch:
+  - cloudwatch:
       - aws_cloudwatch_dashboard
       - aws_cloudwatch_event_rule
       - aws_cloudwatch_event_target
       - aws_cloudwatch_metric_alarm
-    codebuild:
+  - codebuild:
       - aws_codebuild_project
-    codecommit:
+  - codecommit:
       - aws_codecommit_repository
-    codedeploy:
+  - codedeploy:
       - aws_codedeploy_app
-    codepipeline:
+  - codepipeline:
       - aws_codepipeline
       - aws_codepipeline_webhook
-    cognito:
+  - cognito:
       - aws_cognito_identity_pool
       - aws_cognito_user_pool
-    customer_gateway:
+  - customer_gateway:
       - aws_customer_gateway
-    config:
+  - config:
       - aws_config_config_rule
       - aws_config_configuration_recorder
       - aws_config_delivery_channel
-    datapipeline:
+  - datapipeline:
       - aws_datapipeline_pipeline
-    devicefarm:
+  - devicefarm:
       - aws_devicefarm_project
-    dynamodb:
+  - dynamodb:
       - aws_dynamodb_table
-    ec2_instance:
+  - ec2_instance:
       - aws_instance
-    eip:
+  - eip:
       - aws_eip
-    elasticache:
+  - elasticache:
       - aws_elasticache_cluster
       - aws_elasticache_parameter_group
       - aws_elasticache_subnet_group
       - aws_elasticache_replication_group
-    ebs:
+  - ebs:
       - aws_ebs_volume
       - aws_volume_attachment
-    elastic_beanstalk:
+  - elastic_beanstalk:
       - aws_elastic_beanstalk_application
       - aws_elastic_beanstalk_environment
-    ecs:
+  - ecs:
       - aws_ecs_cluster
       - aws_ecs_service
       - aws_ecs_task_definition
-    ecr:
+  - ecr:
       - aws_ecr_lifecycle_policy
       - aws_ecr_repository
       - aws_ecr_repository_policy
-    eks:
+  - eks:
       - aws_eks_cluster
-    elb:
+  - elb:
       - aws_elb
-    emr:
+  - emr:
       - aws_emr_cluster
       - aws_emr_security_configuration
-    eni:
+  - eni:
       - aws_network_interface
-    es:
+  - es:
       - aws_elasticsearch_domain
-    firehose:
+  - firehose:
       - aws_kinesis_firehose_delivery_stream
-    glue:
+  - glue:
       - glue_crawler
       - aws_glue_catalog_database
       - aws_glue_catalog_table
-    iam:
+  - iam:
       - aws_iam_group
       - aws_iam_group_policy
       - aws_iam_group_policy_attachment
@@ -125,93 +147,93 @@ resources:
       - aws_iam_user_group_membership
       - aws_iam_user_policy
       - aws_iam_user_policy_attachment
-    igw:
+  - igw:
       - aws_internet_gateway
-    iot:
+  - iot:
       - aws_iot_thing
       - aws_iot_thing_type
       - aws_iot_topic_rule
       - aws_iot_role_alias
-    kinesis:
+  - kinesis:
       - aws_kinesis_stream
-    kms:
+  - kms:
       - aws_kms_key
       - aws_kms_alias
-    lambda:
+  - lambda:
       - aws_lambda_event_source_mapping
       - aws_lambda_function
       - aws_lambda_function_event_invoke_config
       - aws_lambda_layer_version
-    media_package:
+  - media_package:
       - aws_media_package_channel
-    media_store:
+  - media_store:
       - aws_media_store_container
-    msk:
+  - msk:
       - aws_msk_cluster
-    nat:
+  - nat:
       - aws_nat_gateway
-    nacl:
+  - nacl:
       - aws_network_acl
-    organization:
+  - organization:
       - aws_organizations_account
       - aws_organizations_organization
       - aws_organizations_organizational_unit
       - aws_organizations_policy
       - aws_organizations_policy_attachment
-    qldb:
+  - qldb:
       - aws_qldb_ledger
-    rds:
+  - rds:
       - aws_db_instance
       - aws_db_parameter_group
       - aws_db_subnet_group
       - aws_db_option_group
       - aws_db_event_subscription
-    resourcegroups:
+  - resourcegroups:
       - aws_resourcegroups_group
-    route53:
+  - route53:
       - aws_route53_zone
       - aws_route53_record
-    route_table:
+  - route_table:
       - aws_route_table
       - aws_main_route_table_association
       - aws_route_table_association
-    s3:
+  - s3:
       - aws_s3_bucket
       - aws_s3_bucket_policy
-    secretsmanager:
+  - secretsmanager:
       - aws_secretsmanager_secret
-    securityhub:
+  - securityhub:
       - aws_securityhub_account
       - aws_securityhub_member
       - aws_securityhub_standards_subscription
-    servicecatalog:
+  - servicecatalog:
       - aws_servicecatalog_portfolio
-    ses:
+  - ses:
       - aws_ses_configuration_set
       - aws_ses_domain_identity
       - aws_ses_email_identity
       - aws_ses_receipt_rule
       - aws_ses_receipt_rule_set
       - aws_ses_template
-    sfn:
+  - sfn:
       - aws_sfn_activity
       - aws_sfn_state_machine
-    sg:
+  - sg:
       - aws_security_group
       - aws_security_group_rule # (if a rule cannot be inlined)
-    sns:
+  - sns:
       - aws_sns_topic
       - aws_sns_topic_subscription
-    sqs:
+  - sqs:
       - aws_sqs_queue
-    subnet:
+  - subnet:
       - aws_subnet
-    swf:
+  - swf:
       - aws_swf_domain
-    transit_gateway:
+  - transit_gateway:
       - aws_ec2_transit_gateway_route_table
       - aws_ec2_transit_gateway_vpc_attachment
-    waf:
+  - waf:
       - aws_waf_byte_match_set
       - aws_waf_geo_match_set
       - aws_waf_ipset
@@ -224,7 +246,7 @@ resources:
       - aws_waf_sql_injection_match_set
       - aws_waf_web_acl
       - aws_waf_xss_match_set
-    waf_regional:
+  - waf_regional:
       - aws_wafregional_byte_match_set
       - aws_wafregional_geo_match_set
       - aws_wafregional_ipset
@@ -237,16 +259,16 @@ resources:
       - aws_wafregional_sql_injection_match_set
       - aws_wafregional_web_acl
       - aws_wafregional_xss_match_set
-    vpc:
+  - vpc:
       - aws_vpc
-    vpc_peering:
+  - vpc_peering:
       - aws_vpc_peering_connection
-    vpn_connection:
+  - vpn_connection:
       - aws_vpn_connection
-    vpn_gateway:
+  - vpn_gateway:
       - aws_vpn_gateway
-    workspaces:
+  - workspaces:
       - aws_workspaces_directory
       - aws_workspaces_workspace
-    xray:
+  - xray:
       - aws_xray_sampling_rule
