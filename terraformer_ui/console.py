@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import sys
+import subprocess
+
 from ruamel.yaml import YAML
 
 import pkg_resources
@@ -21,6 +23,7 @@ class TerraformerUIConsole(object):
         if self.regions != None:
             cmd.extend( ("--regions", ",".join(self.regions)) )
         self.log("cmd: %s" % cmd)
+        subprocess.check_call(cmd)
 
     def log(self, msg):
         sys.stderr.write(msg + "\n")
