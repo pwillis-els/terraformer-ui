@@ -79,7 +79,8 @@ class TerraformerUIConsole(object):
         all_resources = [ k for k in y["resources"] ]
         self.resource_type = self.find_answer( y["resources"], "What resource type would you like to use? [%s] " % ','.join(all_resources) )[0]
 
-        resource_fmt = self.outputfmt( [ i for k in y["resources"][self.resource_type] for i in k ] )
+        flattened_resources = [ i for k in y["resources"][self.resource_type] for i in k ]
+        resource_fmt = self.outputfmt( flattened_resources )
         resource_a = self.find_answer( y["resources"][self.resource_type], "What resource(s) would you like to get? [\n%s] " % resource_fmt )
 
         sub_resources = []
@@ -88,7 +89,6 @@ class TerraformerUIConsole(object):
                 subresource_fmt = self.outputfmt( r_v )
                 sub_resources.extend( self.find_answer( r_v, "What sub-resources would you like to get? [\n%s] " % subresource_fmt ) )
 
-        self.log("Sub-resources: %s" % sub_resources)
         self.resources = sub_resources
 
         if "regions" in y and self.resource_type in y["regions"]:
