@@ -14,5 +14,5 @@ DOCKER_IMG_TAG  := latest
 docker-build:
 	docker build -t $(DOCKER_IMG):$(DOCKER_IMG_TAG) .
 
-docker-run:
+docker-run: docker-build
 	docker run --rm -it $(DOCKER_IMG):$(DOCKER_IMG_TAG)
