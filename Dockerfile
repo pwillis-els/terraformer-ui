@@ -27,13 +27,15 @@ RUN wget -O /usr/local/bin/terraformer \
 
 # Install the Terraform provider manually so we don't have to download Terraform
 # just to download this file. The AWS provider adds about 149MB.
+# https://releases.hashicorp.com/terraform-provider-aws/2.70.0/terraform-provider-aws_2.70.0_linux_amd64.zip?checksum=sha256:75aa59ae6f0834ed7142c81569182a658e4c22724a34db5d10f7545857d8db0c
 ARG TERRAFORM_PROVIDER=aws
-ARG TERRAFORM_PROVIDER_VERSION=3.4.0
-ARG TERRAFORM_PROVIDER_VERSION_FULL=3.4.0_x5
-ARG TERRAFORM_PROVIDER_CHECKSUM=sha256:b8efeae190cedc2acec95c215ce7a401f841d0f3adc4e5ce59847036a801dc95
+ARG TERRAFORM_PROVIDER_VERSION=2.70.0
+ARG TERRAFORM_PROVIDER_VERSION_FULL=2.70.0_x4
+ARG TERRAFORM_PROVIDER_CHECKSUM=sha256:75aa59ae6f0834ed7142c81569182a658e4c22724a34db5d10f7545857d8db0c
 RUN mkdir -p .terraform/plugins/linux_amd64/ \
-    && wget -O .terraform/plugins/linux_amd64/terraform-provider-${TERRAFORM_PROVIDER}_v${TERRAFORM_PROVIDER_VERSION_FULL} \
+    && wget -O .terraform/plugins/linux_amd64/provider.zip \
         "https://releases.hashicorp.com/terraform-provider-${TERRAFORM_PROVIDER}/${TERRAFORM_PROVIDER_VERSION}/terraform-provider-${TERRAFORM_PROVIDER}_${TERRAFORM_PROVIDER_VERSION}_linux_amd64.zip?checksum=${TERRAFORM_PROVIDER_CHECKSUM}" \
+    && unzip -d .terraform/plugins/linux_amd64/ .terraform/plugins/linux_amd64/provider.zip \
     && chmod 755 .terraform/plugins/linux_amd64/terraform-provider-${TERRAFORM_PROVIDER}_v${TERRAFORM_PROVIDER_VERSION_FULL}
 
 #
