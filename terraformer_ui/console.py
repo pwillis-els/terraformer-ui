@@ -2,18 +2,20 @@
 
 import sys
 import subprocess
-
 from ruamel.yaml import YAML
 
 import pkg_resources
-
 DATA_PATH = pkg_resources.resource_filename('terraformer_ui', 'data/resources.yaml')
+
+SKIP_SUB_RESOURCES=1
 
 class TerraformerUIConsole(object):
 
     resource_type = None
     resources = None
     regions = None
+    filters = []
+    yaml = None
 
     def run_terraformer(self):
         cmd = [ "terraformer" ]
@@ -22,8 +24,12 @@ class TerraformerUIConsole(object):
             cmd.extend( ("--resources", ",".join(self.resources)) )
         if self.regions != None:
             cmd.extend( ("--regions", ",".join(self.regions)) )
+        if len(self.filters) > 0:
+            for f in self.filters:
+                cmd.extend(     ( "--filter",   ";".join( ["%s=%s" % (a[0],a[1]) for a in f] )     ) )
         self.log("cmd: %s" % cmd)
         subprocess.check_call(cmd)
+
 
     def log(self, msg):
         sys.stderr.write(msg + "\n")
@@ -75,29 +81,60 @@ class TerraformerUIConsole(object):
         self.log("Selected: %s\n" % answer_lst)
         return self.extract_keys(obj, answer_lst, mandatory=True)
 
+    def ask_resource_type(self):
+        all_resources = [ k for k in self.yaml["resources"] ]
+        self.resource_type = self.find_answer( self.yaml["resources"], "What resource type would you like to use? [%s] " % ','.join(all_resources) )[0]
+
+    def ask_resources(self):
+        flattened_resources = [ i for k in self.yaml["resources"][self.resource_type] for i in k ]
+        resource_fmt = self.outputfmt( flattened_resources )
+        resource_a = self.find_answer( self.yaml["resources"][self.resource_type], "What resource(s) would you like to get? [\n%s] " % resource_fmt )
+        self.resources = [ i for k in resource_a for i in k ]
+
+    def ask_sub_resources(self):
+        if not SKIP_SUB_RESOURCES:
+            # NOTE: this doesn't seem to work in terraformer, don't use this function
+            sub_resources = []
+            for r in resource_a:
+                for r_n, r_v in r.items():
+                    subresource_fmt = self.outputfmt( r_v )
+                    sub_resources.extend( self.find_answer( r_v, "What sub-resources would you like to get? [\n%s] " % subresource_fmt ) )
+            self.resources = sub_resources
+
+    def ask_regions(self):
+        if "regions" in self.yaml and self.resource_type in self.yaml["regions"]:
+            regions_fmt = self.outputfmt( self.yaml["regions"][self.resource_type] )
+            self.regions = self.find_answer(self.yaml["regions"][self.resource_type], "What region(s) would you like to retrieve? [\n%s] " % regions_fmt )
+
+    def ask_tags(self):
+        print("What tags would you like to filter for? (Leave blank to continue)")
+        tags = []
+        while True:
+            tmpa = []
+            name= input("Tag Name: ").strip()
+            if len(name) < 1:
+                break
+            val= input("Tag Value: ")
+            if len(val) < 1:
+                break
+            tmpa = [ ['tags.Name',name], ['Value',val] ]
+            typ= input("Resource (leave blank for any): ").strip()
+            if len(typ) > 0:
+                tmpa.insert(0, ['Type',typ])
+            tags.append(tmpa)
+            print("")
+        if len(tags) > 0:
+            self.filters.extend(tags)
+
     def main(self):
         with open(DATA_PATH) as f:
-            y = YAML(typ='safe').load(f)
+            self.yaml = YAML(typ='safe').load(f)
 
-        all_resources = [ k for k in y["resources"] ]
-        self.resource_type = self.find_answer( y["resources"], "What resource type would you like to use? [%s] " % ','.join(all_resources) )[0]
-
-        flattened_resources = [ i for k in y["resources"][self.resource_type] for i in k ]
-        resource_fmt = self.outputfmt( flattened_resources )
-        resource_a = self.find_answer( y["resources"][self.resource_type], "What resource(s) would you like to get? [\n%s] " % resource_fmt )
-
-        sub_resources = []
-        for r in resource_a:
-            for r_n, r_v in r.items():
-                subresource_fmt = self.outputfmt( r_v )
-                sub_resources.extend( self.find_answer( r_v, "What sub-resources would you like to get? [\n%s] " % subresource_fmt ) )
-
-        self.resources = sub_resources
-
-        if "regions" in y and self.resource_type in y["regions"]:
-            regions_fmt = self.outputfmt( y["regions"][self.resource_type] )
-            self.regions = self.find_answer(y["regions"][self.resource_type], "What region(s) would you like to retrieve? [\n%s] " % regions_fmt )
-
+        self.ask_resource_type()
+        self.ask_resources()
+        self.ask_sub_resources()
+        self.ask_regions()
+        self.ask_tags()
         self.run_terraformer()
 
 
